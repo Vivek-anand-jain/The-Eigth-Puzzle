@@ -65,8 +65,43 @@ class Board {
     }
   }
 
+  bool IsGoalState() {
+    for (int i = 0; i < m_N; i++) {
+      for (int j = 0; j < m_N; j++) {
+        if (m_goal[i][j] != m_board[i][j]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  Board Swap(int xx, int yy) {
+    auto board = m_board;
+    swap(board[xx][yy], board[m_blankPosI][m_blankPosJ]);
+    return Board(board);
+  }
+
+  string ToString() {
+    string str;
+    for (int i = 0; i < m_N; i++) {
+      for (int j = 0; j < m_N; j++) {
+        str.append(to_string(m_board[i][j]));
+      }
+    }
+    return str;
+  }
+
+  int Size() { return m_N; }
+
+  void SetDepth(int depth) { m_depth = depth; }
+
+  int GetDepth() { return m_depth; }
+
  private:
   vector<vector<int>> m_board;
+  vector<vector<int>> m_goal{{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
   int m_N;
   int m_blankPosI, m_blankPosJ;
+  int m_depth{0};
 };
