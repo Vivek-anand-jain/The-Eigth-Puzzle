@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 
+#include "board.hpp"
+
 using namespace std;
 
 vector<vector<int>> DefaultPuzzle() {
