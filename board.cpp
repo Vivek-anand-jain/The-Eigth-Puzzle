@@ -25,6 +25,15 @@ class Board {
 
   void SetBlankPosJ(int jj) { m_blankPosJ = jj; }
 
+  void Print () {
+    for (int i = 0; i < m_N; i++) {
+      for (int j = 0; j < m_N; j++) {
+        cout << m_board[i][j] << " ";
+      }
+      cout << endl;
+    }
+  }
+
  private:
   vector<vector<int>> m_board;
   int m_N;
