@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 
 #include "board.hpp"
+#include "solver.hpp"
 
 using namespace std;
 
@@ -42,6 +43,9 @@ int main() {
 
   Board board(vec);
   board.Print();
+
+  Solver solver;
+  solver.Solve(board);
 
   return 0;
 }
