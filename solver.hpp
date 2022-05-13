@@ -1,21 +1,51 @@
+using comp = std::function<bool(Board&, Board&)>;
+
+bool UniformCostSearch(Board& lhs, Board& rhs) {
+  return (lhs.GetDepth() > rhs.GetDepth());
+}
+
+bool AStarMisplaced(Board& lhs, Board& rhs) {
+  return (lhs.GetDepth() + lhs.MisplacedTiles()) >
+         (rhs.GetDepth() + rhs.MisplacedTiles());
+}
+
+bool AStarManhattan(Board& lhs, Board& rhs) {
+  return (lhs.GetDepth() + lhs.ManhattanDistance()) >
+         (rhs.GetDepth() + rhs.ManhattanDistance());
+}
+
 class Solver {
  public:
   Solver() {}
 
-  void Solve(Board board) {
+  priority_queue<Board, vector<Board>, comp> GetQueueingFunc(int algo) {
+    if (algo == 1) {
+      cout << "Using Uniform Cost Search \n";
+      priority_queue<Board, vector<Board>, comp> q(UniformCostSearch);
+      return q;
+    } else if (algo == 2) {
+      cout << "Using ASTAR with Misplaced \n";
+      priority_queue<Board, vector<Board>, comp> q(AStarMisplaced);
+      return q;
+    }
+    cout << "Using AStar with Manhattan \n";
+    priority_queue<Board, vector<Board>, comp> q(AStarManhattan);
+    return q;
+  }
+
+  void Solve(Board board, int algorithm) {
     board.SetDepth(0);
     set<string> seen;
     seen.insert(board.ToString());
 
-    cout << "Uniform cost search \n";
-    queue<Board> q;
+    auto q = GetQueueingFunc(algorithm);
     q.push(board);
 
     vector<int> dx = {1, -1, 0, 0};
     vector<int> dy = {0, 0, 1, -1};
 
     while (!q.empty()) {
-      Board oldBoard = q.front();
+      Board oldBoard = q.top();
       q.pop();
       int currDepth = oldBoard.GetDepth();
 
