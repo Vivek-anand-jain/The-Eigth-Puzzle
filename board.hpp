@@ -98,6 +98,35 @@ class Board {
 
   int GetDepth() { return m_depth; }
 
+  int ManhattanDistance() {
+    int dist = 0;
+    for (int i = 0; i < m_N; i++) {
+      for (int j = 0; j < m_N; j++) {
+        int val = m_board[i][j];
+        if (val != 0) {
+          val--;
+          int row = val / m_N;
+          int col = val % m_N;
+
+          dist += abs(row - i) + abs(col - j);
+        }
+      }
+    }
+    return dist;
+  }
+
+  int MisplacedTiles() {
+    int misplacedTiles = 0;
+    for (int i = 0; i < m_N; i++) {
+      for (int j = 0; j < m_N; j++) {
+        if (m_board[i][j] != m_goal[i][j]) {
+          misplacedTiles++;
+        }
+      }
+    }
+    return misplacedTiles;
+  }
+
  private:
   vector<vector<int>> m_board;
   vector<vector<int>> m_goal{{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
