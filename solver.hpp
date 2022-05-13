@@ -34,6 +34,10 @@ class Solver {
   }
 
   void Solve(Board board, int algorithm) {
+    uint32_t maxQueueSize = 1;
+    uint32_t nodesExpanded = 0;
+
+    int found = -1;
     board.SetDepth(0);
     set<string> seen;
     seen.insert(board.ToString());
@@ -44,15 +48,17 @@ class Solver {
     vector<int> dx = {1, -1, 0, 0};
     vector<int> dy = {0, 0, 1, -1};
 
+    auto start = std::chrono::high_resolution_clock::now();
     while (!q.empty()) {
       Board oldBoard = q.top();
       q.pop();
       int currDepth = oldBoard.GetDepth();
 
       if (oldBoard.IsGoalState()) {
-        cout << "Found at " << currDepth << endl;
-        return;
+        found = currDepth;
+        break;
       }
+      nodesExpanded++;
 
       for (int i = 0; i < 4; i++) {
         int xx = dx[i] + oldBoard.BlankX();
@@ -68,9 +74,20 @@ class Solver {
         }
         newBoard.SetDepth(currDepth + 1);
         q.push(newBoard);
+        maxQueueSize = max<uint32_t>(maxQueueSize, q.size());
         seen.insert(newBoard.ToString());
       }
     }
-    cout << "No solution " << std::endl;
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = finish - start;
+    std::cout << "Elapsed Time: " << elapsed.count() << " milliseconds"
+              << std::endl;
+    if (found == -1) {
+      cout << "No solution " << std::endl;
+    } else {
+      cout << "Found at " << found << endl;
+    }
+    cout << "Max Queue Size: " << maxQueueSize << endl;
+    cout << "Nodes expanded: " << nodesExpanded << endl;
   }
 };
