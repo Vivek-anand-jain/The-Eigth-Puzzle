@@ -20,9 +20,14 @@ int main() {
     done = 1;
     cin >> puzzleMode;
     switch (puzzleMode) {
-      case 1:
-        vec = DefaultPuzzle();
-        break;
+      case 1: {
+        int puzzle;
+        do {
+          cout << "Enter one of the depth: 0, 2, 4, 8, 12, 16, 20, 24" << endl;
+          cin >> puzzle;
+          vec = DefaultPuzzle(puzzle);
+        } while (vec.empty());
+      } break;
       case 2:
         cout << "Enter 3 * 3 puzzle, zero means blank" << endl;
         for (int i = 0; i < n; i++) {
