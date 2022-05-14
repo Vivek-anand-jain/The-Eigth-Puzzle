@@ -69,8 +69,7 @@ int main() {
     }
   } while (done != 1);
 
-  Solver solver;
-  solver.Solve(board, algorithm);
+  Solve(board, algorithm);
 
   return 0;
 }

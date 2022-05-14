@@ -45,10 +45,6 @@ class Board {
 
   int BlankY() { return m_blankPosJ; }
 
-  void SetBlankPosI(int ii) { m_blankPosI = ii; }
-
-  void SetBlankPosJ(int jj) { m_blankPosJ = jj; }
-
   void Print() {
     for (int i = 0; i < m_N; i++) {
       for (int j = 0; j < m_N; j++) {
