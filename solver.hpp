@@ -58,8 +58,8 @@ priority_queue<Board, vector<Board>, comp> MakeQueue(int algo) {
  * Function that implements General search algorithm
  */
 void Solve(Board board, int algorithm) {
-  uint32_t maxQueueSize = 1;    //!< tracks the max size of queue
-  uint32_t nodesExpanded = 0;   //!< tracks number of nodes expanded
+  uint32_t maxQueueSize = 1;  //!< tracks the max size of queue
+  uint32_t nodesExpanded = 0; //!< tracks number of nodes expanded
 
   int found = -1;
   board.SetDepth(0);
@@ -70,13 +70,14 @@ void Solve(Board board, int algorithm) {
   auto q = MakeQueue(algorithm); //!< call factory method to get the queueing function
   q.push(board);                 //!< push initial board
 
-  // These are four operators for moving blank in directions: Down, Up, Right, Left
+  // These are four operators for moving blank
+  // in directions: Down, Up, Right, Left
   vector<int> dx = {1, -1, 0, 0};
   vector<int> dy = {0, 0, 1, -1};
 
   auto start = std::chrono::high_resolution_clock::now();
   while (!q.empty()) {
-    Board oldBoard = q.top();       // This is equivalent to REMOVE-FRONT
+    Board oldBoard = q.top(); // This is equivalent to REMOVE-FRONT
     q.pop();
     int currDepth = oldBoard.GetDepth();
 
@@ -86,7 +87,8 @@ void Solve(Board board, int algorithm) {
     }
     nodesExpanded++;
 
-    for (int i = 0; i < 4; i++) {   // This is equivalent to  QUEUEING - FUNCTION(nodes, EXPAND(node, problem.OPERATORS))
+    // This is equivalent to  QUEUEING - FUNCTION(nodes, EXPAND(node, problem.OPERATORS))
+    for (int i = 0; i < 4; i++) {
       int xx = dx[i] + oldBoard.BlankX();
       int yy = dy[i] + oldBoard.BlankY();
 
@@ -95,10 +97,12 @@ void Solve(Board board, int algorithm) {
       }
 
       Board newBoard = oldBoard.Swap(xx, yy);
-      if (seen.find(newBoard.ToString()) != seen.end()) { // Checking if state is already processed
+      // Checking if state is already processed
+      if (seen.find(newBoard.ToString()) != seen.end()) {
         continue;
       }
-      newBoard.SetDepth(currDepth + 1); // set depth of the newly explored board
+      // set depth of the newly explored board
+      newBoard.SetDepth(currDepth + 1);
       q.push(newBoard);
       maxQueueSize = max<uint32_t>(maxQueueSize, q.size());
       seen.insert(newBoard.ToString());
